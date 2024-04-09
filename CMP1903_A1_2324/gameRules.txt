@@ -17,8 +17,6 @@ Rules:
 	4-of-a-kind: 6 points
 	5-of-a-kind: 12 points
 	First to a total of 20.
-
-
 	
 	
 
