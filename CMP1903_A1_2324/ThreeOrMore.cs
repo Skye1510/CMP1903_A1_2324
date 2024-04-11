@@ -14,57 +14,73 @@ namespace CMP1903_A1_2324
         int playerTwoScore = 0;
         int rounds = 1;
 
+        //function to find how many times the number that occurs the most times occurs, and what that number is
         public int checkForMatches(List<int> numList, bool findNumber = false)
         {
-            List<int> numbersChecked = new List<int>();
+            //max values
             int maxCount = 0;
-            int value = 0;
+            int maxElement = 0;
 
-            for (int i = 0; i < numList.Count; i++) 
-            { 
-                if (numbersChecked.Contains(numList[i]))
-                {
-                    continue;
-                }
-
-                numbersChecked.Add(numList[i]);
+            //outer loop
+            for(int i = 0; i < numList.Count; i++)
+            {
+                //reset count to 0 at the start of each loop
                 int count = 0;
-                for(int j = 0; j < numList.Count; j++) 
-                {
-                    if(i == j)
-                    {
-                        continue;
-                    }
 
+                //inner loop
+                for(int j = 0; j < numList.Count; j++)
+                {
+                    //if the numbers are the same, increment count
                     if (numList[i] == numList[j])
                     {
                         count++;
                     }
                 }
 
+                //if the count is bigger than the current max count, update the max values
                 if(count > maxCount)
                 {
                     maxCount = count;
-
-                    if(findNumber)
-                    {
-                        value = numList[i];
-                    }
+                    maxElement = numList[i];
                 }
             }
 
+            //return appropriate value depending on what we were finding
             if(findNumber)
             {
-                return value;
+                return maxElement;
             }
+            else
+            {
+                return maxCount;
+            }
+        }
 
-            return maxCount;
+        //check what to add to the players score
+        public int CheckScore(int numOfMatches)
+        {
+            if(numOfMatches == 3)
+            {
+                return 3;
+            }
+            else if(numOfMatches == 4)
+            {
+                return 6;
+            }
+            else if(numOfMatches == 5)
+            {
+                return 12;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public List<int> PlayGame()
         {
-            bool done = false;
-            bool isPlayerTwo = false;
+            bool done = false; //controls the loop
+            bool isPlayerTwo = false; //which players turn is it?
             while(!done)
             {
                 int scoreToAdd = 0; //variable used to hold the score that needs to be added to the correct players score
@@ -77,46 +93,101 @@ namespace CMP1903_A1_2324
                 Console.ReadKey(); //wait for the player to press a key
                 List<int> list = RollDie(5); //get a list of 5 random numbers from the RollDie() function
 
-                //creating a string to show the players result
+                //show what was rolled
                 Console.WriteLine("Rolled a: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3] + ", " + list[4] + ".");
 
+                //see how many matches the player got
                 int matches = checkForMatches(list);
                 
+                //if they got a 2 of a kind
                 if(matches == 2)
                 {
-                    //reroll all or remaining
-                    //readline
-                    //validate input
-                    //if all
-                        //new list is 5 dice
-                        //check for matches
-                        //check score
-                    //else
-                        //call check for matches with 2nd parameter true
-                        //new list with returned value as first 2 values
-                        //roll another 3 dice and append
-                        //check for matches again
-                        //check score
+                    //present options to user, and validate their input
+                    int intUserInput = -1;
+                    Console.WriteLine("Got 2-of-a-kind! Select an option: \n1. Re-roll all 5 dice\n2. Re-roll the remaining 3?");
+                    while (intUserInput == -1)
+                    {
+                        string userInput = Console.ReadLine();
+                        intUserInput = ValidateInput(userInput, 1, 2);
+                    }
 
-                    Console.WriteLine(""); 
+                    //if they chose to re-roll all dice
+                    if (intUserInput == 1)
+                    {
+                        //overwrite list with a list of 5 new values
+                        list = RollDie(5);
+                        //tell them what they rolled
+                        Console.WriteLine("Rolled a: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3] + ", " + list[4] + ".");
+                        //see what to add to the score
+                        scoreToAdd = CheckScore(checkForMatches(list));
+                    }
+                    //if they chose to only re-roll the remaining dice
+                    else
+                    {
+                        //get the value of the most common item so we can keep it
+                        int keptValue = checkForMatches(list, true);
+                        //reset list to be an empty list
+                        list = new List<int>();
+                        //add the kept value twice as 2-of-a-kind
+                        list.Add(keptValue);
+                        list.Add(keptValue);
+                        //create 3 new random numbers and add to the end of the list
+                        list.AddRange(RollDie(3));
+                        //tell player what they got
+                        Console.WriteLine("Rolled a: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3] + ", " + list[4] + ".");
+                        //see what to add to score
+                        scoreToAdd = CheckScore(checkForMatches(list));
+                    }
+                }
+                //if the player got only one's or a 3/4/5 of a kind
+                else
+                {
+                    //add the correct score
+                    scoreToAdd = CheckScore(matches);
+                }
+
+                //add score to correct players score total
+                if (!isPlayerTwo)
+                {
+                    playerOneScore += scoreToAdd;
                 }
                 else
                 {
-                    //take all this and whack it into a function because its needed above :3
-                    if (matches == 3)
-                    {
-                        scoreToAdd = 3;
-                    }
-                    else if (matches == 4)
-                    {
-                        scoreToAdd = 6;
-                    }
-                    else
-                    {
-                        scoreToAdd = 12;
-                    }
-                }  
+                    playerTwoScore += scoreToAdd;
+                }
+
+                //flip whos turn it is
+                isPlayerTwo = !isPlayerTwo;
+
+                //check for game end condition
+                if(playerOneScore >= 20 ||  playerTwoScore >= 20)
+                {
+                    done = true;
+                }
+
+                Console.WriteLine("Player One's score: " + playerOneScore + "\nPlayer Two's score: " + playerTwoScore); //let the players know the score
             }
+
+            //report winner
+            if (playerOneScore > playerTwoScore)
+            {
+                Console.WriteLine("Player One wins!");
+            }
+            else if(playerTwoScore > playerOneScore)
+            {
+                Console.WriteLine("Player Two wins!");
+            }
+            else
+            {
+                Console.WriteLine("Tie!");
+            }
+
+            //return stats to main program
+            List<int> ints = new List<int>();
+            ints.Add(playerOneScore);
+            ints.Add(playerTwoScore);
+            ints.Add(rounds);
+            return ints;
         }
     }
 }

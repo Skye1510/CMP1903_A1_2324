@@ -63,13 +63,11 @@ namespace CMP1903_A1_2324 {
                 {
                     SevensOut so = new SevensOut();
                     List<int> results = so.PlayGame();
-                    Console.WriteLine(results[0]);
-                    Console.WriteLine(results[1]);
-                    Console.WriteLine(results[2]);
                 }
                 else if (intUserInput == 2)
                 {
                     ThreeOrMore tom = new ThreeOrMore();
+                    List<int> results = tom.PlayGame();
                 }
                 else if (intUserInput == 3)
                 {
