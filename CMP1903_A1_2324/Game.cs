@@ -49,6 +49,8 @@ namespace CMP1903_A1_2324 {
         {
             int intUserInput = -1;
             bool done = false;
+            Statistics stats = new Statistics();
+            stats.GetCurrentScores();
             while (!done)
             {
                 intUserInput = -1;
@@ -62,12 +64,22 @@ namespace CMP1903_A1_2324 {
                 if (intUserInput == 1)
                 {
                     SevensOut so = new SevensOut();
-                    List<int> results = so.PlayGame();
+                    int results = so.PlayGame();
+                    stats.stats[0]++;
+                    if(results > stats.stats[1])
+                    {
+                        stats.stats[1] = results;
+                    }
                 }
                 else if (intUserInput == 2)
                 {
                     ThreeOrMore tom = new ThreeOrMore();
-                    List<int> results = tom.PlayGame();
+                    int results = tom.PlayGame();
+                    stats.stats[2]++;
+                    if(results > stats.stats[3])
+                    {
+                        stats.stats[3] = results;
+                    }
                 }
                 else if (intUserInput == 3)
                 {
@@ -75,7 +87,7 @@ namespace CMP1903_A1_2324 {
                 }
                 else if (intUserInput == 4)
                 {
-                    Statistics stats = new Statistics();
+                    stats.ShowScores();
                 }
                 else if (intUserInput == 5)
                 {
@@ -84,6 +96,7 @@ namespace CMP1903_A1_2324 {
                 else
                 {
                     Console.WriteLine("Thank you so much for-a playing my game. Saving scores and closing program.");
+                    stats.UpdateScores();
                     Thread.Sleep(2000);
                     done = true;
                 }

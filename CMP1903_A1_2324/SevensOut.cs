@@ -13,7 +13,7 @@ namespace CMP1903_A1_2324
         int playerTwoScore = 0;
         int rounds = 1;
 
-        public List<int> PlayGame()
+        public int PlayGame()
         {
             bool done = false; //controls game loop
             bool isPlayerTwo = false; //bool used to state which players turn it is
@@ -64,22 +64,18 @@ namespace CMP1903_A1_2324
             if(playerOneScore > playerTwoScore)
             {
                 Console.WriteLine("Player One wins!");
+                return playerOneScore;
             }
             else if(playerOneScore < playerTwoScore)
             {
                 Console.WriteLine("Player Two wins!");
+                return playerTwoScore;
             }
             else
             {
                 Console.WriteLine("Tie!");
+                return playerOneScore;
             }
-
-            //return stats back to the game object
-            List<int> ints = new List<int>();
-            ints.Add(playerOneScore);
-            ints.Add(playerTwoScore);
-            ints.Add(rounds);
-            return ints;
         }
     }
 }
