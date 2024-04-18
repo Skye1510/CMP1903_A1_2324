@@ -10,12 +10,12 @@ namespace CMP1903_A1_2324
 {
     internal class ThreeOrMore : Game
     {
-        int playerOneScore = 0;
-        int playerTwoScore = 0;
-        int rounds = 1;
+        private int playerOneScore = 0;
+        private int playerTwoScore = 0;
+        private int rounds = 1;
 
         //function to find how many times the number that occurs the most times occurs, and what that number is
-        public int checkForMatches(List<int> numList, bool findNumber = false)
+        public int CheckForMatches(List<int> numList, bool findNumber = false)
         {
             //max values
             int maxCount = 0;
@@ -83,7 +83,7 @@ namespace CMP1903_A1_2324
             bool isPlayerTwo = false; //which players turn is it?
             while(!done)
             {
-                int scoreToAdd = 0; //variable used to hold the score that needs to be added to the correct players score
+                int scoreToAdd; //variable used to hold the score that needs to be added to the correct players score
                 if (!isPlayerTwo) //if its player ones turn
                 {
                     Console.WriteLine("Round " + rounds + "! Fight!"); //print out which round it is
@@ -97,7 +97,7 @@ namespace CMP1903_A1_2324
                 Console.WriteLine("Rolled a: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3] + ", " + list[4] + ".");
 
                 //see how many matches the player got
-                int matches = checkForMatches(list);
+                int matches = CheckForMatches(list);
                 
                 //if they got a 2 of a kind
                 if(matches == 2)
@@ -119,24 +119,24 @@ namespace CMP1903_A1_2324
                         //tell them what they rolled
                         Console.WriteLine("Rolled a: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3] + ", " + list[4] + ".");
                         //see what to add to the score
-                        scoreToAdd = CheckScore(checkForMatches(list));
+                        scoreToAdd = CheckScore(CheckForMatches(list));
                     }
                     //if they chose to only re-roll the remaining dice
                     else
                     {
                         //get the value of the most common item so we can keep it
-                        int keptValue = checkForMatches(list, true);
-                        //reset list to be an empty list
-                        list = new List<int>();
-                        //add the kept value twice as 2-of-a-kind
-                        list.Add(keptValue);
-                        list.Add(keptValue);
+                        int keptValue = CheckForMatches(list, true);
+                        //set list to be a new list containing two of the kept value
+                        list = new List<int>
+                        {
+                            keptValue, keptValue
+                        };
                         //create 3 new random numbers and add to the end of the list
                         list.AddRange(RollDie(3));
                         //tell player what they got
                         Console.WriteLine("Rolled a: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3] + ", " + list[4] + ".");
                         //see what to add to score
-                        scoreToAdd = CheckScore(checkForMatches(list));
+                        scoreToAdd = CheckScore(CheckForMatches(list));
                     }
                 }
                 //if the player got only one's or a 3/4/5 of a kind
@@ -158,6 +158,9 @@ namespace CMP1903_A1_2324
 
                 //flip whos turn it is
                 isPlayerTwo = !isPlayerTwo;
+
+                //increment rounds
+                rounds++;
 
                 //check for game end condition
                 if(playerOneScore >= 20 ||  playerTwoScore >= 20)

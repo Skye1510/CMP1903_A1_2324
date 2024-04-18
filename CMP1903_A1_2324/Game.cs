@@ -25,7 +25,7 @@ namespace CMP1903_A1_2324 {
 
         public int ValidateInput(string initialInput, int minValue, int maxValue)
         {
-            int finalInput = 0;
+            int finalInput;
             try
             {
                 finalInput = Convert.ToInt32(initialInput);
@@ -47,7 +47,7 @@ namespace CMP1903_A1_2324 {
 
         public void Menu()
         {
-            int intUserInput = -1;
+            int intUserInput;
             bool done = false;
             Statistics stats = new Statistics();
             stats.GetCurrentScores();
@@ -92,6 +92,7 @@ namespace CMP1903_A1_2324 {
                 else if (intUserInput == 5)
                 {
                     Testing testing = new Testing();
+                    testing.SelectTest();
                 }
                 else
                 {

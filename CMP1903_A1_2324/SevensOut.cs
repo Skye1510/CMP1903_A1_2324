@@ -9,18 +9,18 @@ namespace CMP1903_A1_2324
 {
     internal class SevensOut : Game
     {
-        int playerOneScore = 0;
-        int playerTwoScore = 0;
-        int rounds = 1;
+        private int playerOneScore = 0;
+        private int playerTwoScore = 0;
+        private int rounds = 1;
 
-        public int PlayGame()
+        public int PlayGame(bool isTesting = false)
         {
             bool done = false; //controls game loop
             bool isPlayerTwo = false; //bool used to state which players turn it is
             while(!done) //while not done
             {
 
-                int scoreToAdd = 0; //variable used to hold the score that needs to be added to the correct players score
+                int scoreToAdd; //variable used to hold the score that needs to be added to the correct players score
                 if (!isPlayerTwo) //if its player ones turn
                 {
                     Console.WriteLine("Round " + rounds + "! Fight!"); //print out which round it is
@@ -28,7 +28,27 @@ namespace CMP1903_A1_2324
 
                 Console.WriteLine("Player " + (Convert.ToInt32(isPlayerTwo) + 1) + "'s turn. Press any key to roll dice."); //state which players turn it is + provide instruction
                 Console.ReadKey(); //wait for the player to press a key
-                List<int> list = RollDie(2); //get a list of 2 random numbers from the RollDie() function
+                List<int> list;
+                if (!isTesting)
+                {
+                    list = RollDie(2); //get a list of 2 random numbers from the RollDie() function
+                }
+                else
+                {
+                    List<int> neededValues = new List<int> {1,2,3,3,3,4};
+                    if (isPlayerTwo)
+                    {
+                        list = new List<int> { neededValues[2], neededValues[3] };
+                    }
+                    else if (rounds == 1)
+                    {
+                        list = new List<int> { neededValues[0], neededValues[1] };
+                    }
+                    else
+                    {
+                        list = new List<int> { neededValues[4], neededValues[5] };
+                    }
+                }
                 Console.WriteLine("\nRolled a " + list[0] + " and a " + list[1]); //state what the player rolled
 
                 if (list[0] + list[1] == 7) //if the sum of both rolls is a 7
