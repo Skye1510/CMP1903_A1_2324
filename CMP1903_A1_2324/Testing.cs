@@ -21,7 +21,7 @@ namespace CMP1903_A1_2324
             while(!done)
             {
                 int userInput = -1;
-                Console.WriteLine("Which game would you like to test?\n1. Sevens Out\n2. Three or More\n3. Exit");
+                Console.WriteLine("Which game would you like to test?\n1. Sevens Out\n2. Exit");
                 while(userInput == -1) 
                 {
                     string strUserInput = Console.ReadLine();
