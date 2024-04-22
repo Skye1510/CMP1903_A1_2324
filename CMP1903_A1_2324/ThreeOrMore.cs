@@ -15,7 +15,7 @@ namespace CMP1903_A1_2324
         private int rounds = 1;
 
         //function to find how many times the number that occurs the most times occurs, and what that number is
-        public int CheckForMatches(List<int> numList, bool findNumber = false)
+        private int CheckForMatches(List<int> numList, bool findNumber = false)
         {
             //max values
             int maxCount = 0;
@@ -57,7 +57,7 @@ namespace CMP1903_A1_2324
         }
 
         //check what to add to the players score
-        public int CheckScore(int numOfMatches)
+        private int CheckScore(int numOfMatches)
         {
             if(numOfMatches == 3)
             {

@@ -9,15 +9,10 @@ namespace CMP1903_A1_2324
 {
     internal class Testing : Game
     {
-        void TestSevens()
+        private void TestSevens()
         {
             SevensOut sevensOut = new SevensOut();
             sevensOut.PlayGame(true);
-        }
-
-        void TestThree()
-        {
-
         }
 
         public void SelectTest()
@@ -30,23 +25,16 @@ namespace CMP1903_A1_2324
                 while(userInput == -1) 
                 {
                     string strUserInput = Console.ReadLine();
-                    userInput = ValidateInput(strUserInput, 1, 3);
+                    userInput = ValidateInput(strUserInput, 1, 2);
                 }
                 if(userInput == 1)
                 {
                     TestSevens();
                 }
-                else if (userInput == 2) 
-                { 
-                    TestThree();
-                }
                 else
                 {
                     done = true;
                 }
-
-
-
             }
         }
     }
